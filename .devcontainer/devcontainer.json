@@ -1,0 +1,63 @@
+{
+  "name": "GHA (square-num-m)",
+  "image": "ghcr.io/jmlopez-rod/m-devcontainer-py311:latest",
+  "runArgs": ["--rm", "--network=host", "--name=square-num-devcontainer"],
+  "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder} && ./install_m.sh",
+  "containerEnv": {
+    "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}",
+    "CONTAINER_WORKSPACE": "${containerWorkspaceFolder}"
+  },
+  "mounts": [
+    "source=opt_pnpm,target=/opt/pnpm,type=volume",
+    "source=opt_venv,target=/opt/venv,type=volume",
+    "source=m-vscode-server-extensions,target=/root/.vscode-server/extensions,type=volume",
+    "source=m-vscode-server-extensions-insiders,target=/root/.vscode-server-insiders/extensions,type=volume"
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "[json][jsonc][markdown][mdx][yaml]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode",
+          "editor.formatOnSave": true
+        },
+        "editor.renderWhitespace": "all",
+        "files.associations": {
+          "Makefile.*": "makefile"
+        },
+        "emeraldwalk.runonsave": {
+          "commands": [
+            {
+              "match": "\\.py$",
+              "cmd": "isort ${file}"
+            }
+          ]
+        },
+        "editor.minimap.enabled": false,
+        "editor.rulers": [80, 120],
+        "python.defaultInterpreterPath": "/opt/venv/m/bin/python",
+        "python.pythonPath": "/workspaces/gha-square-num-m/src",
+        "python.languageServer": "Pylance",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.linting.pylintArgs": ["--rc-file=.pylintrc"],
+        "python.linting.flake8Enabled": true,
+        "python.linting.flake8Args": ["--config=.flake8"],
+        "python.linting.mypyEnabled": true,
+        "python.linting.mypyArgs": ["--config-file=mypy.ini"]
+      },
+      "extensions": [
+        "GitHub.copilot",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.flake8",
+        "EditorConfig.EditorConfig",
+        "unifiedjs.vscode-mdx",
+        "emeraldwalk.RunOnSave",
+        "streetsidesoftware.code-spell-checker"
+      ]
+    }
+  },
+  "shutdownAction": "stopContainer"
+}
