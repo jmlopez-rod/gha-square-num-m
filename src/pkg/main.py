@@ -1,7 +1,7 @@
 from m.core import Good, Res
 from m.github.actions import KebabModel, OutArg, RunStep, run_action
 
-from .inputs import GithubInputs
+from pkg.inputs import GithubInputs
 
 
 class Outputs(KebabModel):

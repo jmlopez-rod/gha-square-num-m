@@ -1,7 +1,7 @@
 from m.github.actions import Action
 
-from .inputs import GithubInputs
-from .main import main_step
+from pkg.inputs import GithubInputs
+from pkg.main import main_step
 
 actions = Action(
     name='Square Number',
